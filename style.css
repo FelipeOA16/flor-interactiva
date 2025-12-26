@@ -346,3 +346,55 @@ body{
   10%  { opacity: 1; }
   100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--rot)); }
 }
+
+/* flores extra del ramo */
+.b4{ left: 20px; top: 58px; transform: rotate(-14deg) scale(.95); }
+.b5{ right: 10px; top: 64px; transform: rotate(16deg) scale(.95); }
+
+
+/* ===== Lazo del ramo ===== */
+.bow{
+  position:absolute;
+  left:50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 40px;
+  z-index: 4;
+}
+
+.bow .loop{
+  position:absolute;
+  width: 36px;
+  height: 26px;
+  background: linear-gradient(180deg, #ff7fb0, #ff4f8b);
+  border-radius: 18px 18px 6px 18px;
+  box-shadow: 0 10px 18px rgba(255,79,139,.35);
+}
+
+.bow .loop.left{
+  left: 0;
+  transform: rotate(-18deg);
+}
+
+.bow .loop.right{
+  right: 0;
+  transform: scaleX(-1) rotate(-18deg);
+}
+
+.bow .knot{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffd7e6, #ff4f8b);
+  box-shadow: 0 6px 12px rgba(255,79,139,.4);
+}
+
+
+
+
+
