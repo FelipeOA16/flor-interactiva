@@ -10,37 +10,39 @@
 <body>
   <main class="wrap">
     <section class="card" aria-label="Tarjeta de flor">
+
+      <!-- RAMO -->
       <div class="bouquet" aria-hidden="true">
         <div class="wrapPaper"></div>
 
         <div class="bloom b1">
-            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
-            <span class="center"></span>
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+          <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+          <span class="center"></span>
         </div>
 
         <div class="bloom b2">
-            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
-            <span class="center"></span>
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+          <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+          <span class="center"></span>
         </div>
 
         <div class="bloom b3">
-            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
-            <span class="center"></span>
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+          <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+          <span class="center"></span>
         </div>
 
         <div class="bloom b4">
-            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
-            <span class="center"></span>
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+          <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+          <span class="center"></span>
         </div>
 
         <div class="bloom b5">
-            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
-            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
-            <span class="center"></span>
+          <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+          <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+          <span class="center"></span>
         </div>
 
         <div class="stem s1"></div>
@@ -50,18 +52,14 @@
         <div class="leaf l1"></div>
         <div class="leaf l2"></div>
         <div class="leaf l3"></div>
+
+        <!-- LAZO (dentro del ramo) -->
+        <div class="bow" aria-hidden="true">
+          <span class="loop left"></span>
+          <span class="loop right"></span>
+          <span class="knot"></span>
+        </div>
       </div>
-
-      <div class="bow">
-        <span class="loop left"></span>
-        <span class="loop right"></span>
-        <span class="knot"></span>
-      </div>
-
-
-      <!-- Contenedor para la explosión -->
-      <div id="burst" class="burst" aria-hidden="true"></div>
-
 
       <h1 class="title">Para ti</h1>
 
@@ -76,45 +74,63 @@
       </div>
 
       <p class="footer">— enviado desde un lugar donde sí llega el cariño</p>
+
+      <!-- Contenedor para explosión (posicionado absoluto dentro de la card) -->
+      <div id="burst" class="burst" aria-hidden="true"></div>
+
     </section>
   </main>
 
   <script>
-    // 1) EDITA SOLO ESTO (tu mensaje)
+    // ===== 1) Mensaje typewriter =====
     const text = [
       "Hoy me acordé de ti.",
       "Quería enviarte flores, pero la distancia no ayuda…",
       "así que te mando una versión que sí llega."
     ].join("\n");
 
-    // 2) Typewriter
     const el = document.getElementById("msg");
     let i = 0;
 
     function type() {
       if (i <= text.length) {
-        const partial = text.slice(0, i);
-        el.textContent = partial;
+        el.textContent = text.slice(0, i);
         i++;
-        setTimeout(type, 22); // velocidad
+        setTimeout(type, 22);
       }
     }
     type();
 
-    // 3) Reveal button y explosión de florecitas
+    // ===== 2) Reveal + Explosión siempre =====
     const btn = document.getElementById("revealBtn");
     const reveal = document.getElementById("reveal");
     const burst = document.getElementById("burst");
 
+    function placeBurstAtButton() {
+      // Posiciona el origen de la explosión en el centro del botón
+      const cardRect = document.querySelector(".card").getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+
+      const x = (btnRect.left + btnRect.width / 2) - cardRect.left;
+      const y = (btnRect.top + btnRect.height / 2) - cardRect.top;
+
+      burst.style.left = `${x}px`;
+      burst.style.top = `${y}px`;
+    }
+
     function flowerBurst() {
-    const count = 32; // cantidad de florecitas
-    for (let i = 0; i < count; i++) {
+      // Limpia partículas anteriores (para clicks infinitos)
+      burst.innerHTML = "";
+
+      const count = 40; // más cantidad, se siente mejor
+      for (let i = 0; i < count; i++) {
         const p = document.createElement("span");
         p.className = "flowerParticle";
 
-        // dispersión circular
-        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.25);
-        const radius = 120 + Math.random() * 90; // qué tan lejos vuelan
+        // dispersión circular con random
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.35);
+        const radius = 110 + Math.random() * 120;
+
         const dx = Math.cos(angle) * radius;
         const dy = Math.sin(angle) * radius;
 
@@ -122,31 +138,38 @@
         p.style.setProperty("--dy", `${dy}px`);
         p.style.setProperty("--rot", `${(Math.random() * 720 - 360).toFixed(0)}deg`);
 
-        const duration = 700 + Math.random() * 500;
+        const duration = 650 + Math.random() * 650;
         p.style.animation = `fly ${duration}ms ease-out forwards`;
 
-        // variación leve de color
-        const hueShift = Math.floor(Math.random() * 18) - 9;
-        p.style.filter = `hue-rotate(${hueShift}deg) drop-shadow(0 10px 10px rgba(255,127,176,.18))`;
+        const hueShift = Math.floor(Math.random() * 22) - 11;
+        p.style.filter = `hue-rotate(${hueShift}deg) drop-shadow(0 12px 12px rgba(255,127,176,.20))`;
 
         burst.appendChild(p);
-
-        // limpiar
         setTimeout(() => p.remove(), duration + 50);
-    }
+      }
     }
 
     btn.addEventListener("click", () => {
-    reveal.hidden = false;
-    reveal.classList.add("pop");
+      // Mostrar mensaje la primera vez
+      if (reveal.hidden) reveal.hidden = false;
 
-    // explosión
-    flowerBurst();
+      // Reiniciar animación pop para que se vea cada vez
+      reveal.classList.remove("pop");
+      void reveal.offsetWidth; // reflow
+      reveal.classList.add("pop");
 
-    btn.disabled = true;
-    btn.textContent = "Listo 🌷";
+      // Explosión desde el botón
+      placeBurstAtButton();
+      flowerBurst();
+
+      // Cambia texto del botón (sin deshabilitar)
+      btn.textContent = "Otra vez ✨";
     });
 
+    // Si cambias el tamaño de la ventana, la explosión sigue saliendo bien
+    window.addEventListener("resize", () => {
+      // nada, porque siempre se recalcula al click
+    });
   </script>
 </body>
 </html>
