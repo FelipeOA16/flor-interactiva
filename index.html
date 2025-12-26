@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌸</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="card" aria-label="Tarjeta de flor">
+      <div class="flower" aria-hidden="true">
+        <div class="stem"></div>
+        <div class="leaf leaf-left"></div>
+        <div class="leaf leaf-right"></div>
+
+        <div class="bloom">
+          <span class="petal p1"></span>
+          <span class="petal p2"></span>
+          <span class="petal p3"></span>
+          <span class="petal p4"></span>
+          <span class="petal p5"></span>
+          <span class="petal p6"></span>
+          <span class="center"></span>
+        </div>
+      </div>
+
+      <h1 class="title">Para ti</h1>
+
+      <p id="msg" class="msg" aria-live="polite"></p>
+
+      <button id="revealBtn" class="btn" type="button">
+        Ver algo ✨
+      </button>
+
+      <div id="reveal" class="reveal" hidden>
+        <p class="revealText">Si algún día te puedo dar flores en persona, lo haré.</p>
+      </div>
+
+      <p class="footer">— enviado desde un lugar donde sí llega el cariño</p>
+    </section>
+  </main>
+
+  <script>
+    // 1) EDITA SOLO ESTO (tu mensaje)
+    const text = [
+      "Hoy me acordé de ti.",
+      "Quería enviarte flores, pero la distancia no ayuda…",
+      "así que te mando una versión que sí llega."
+    ].join("\n");
+
+    // 2) Typewriter
+    const el = document.getElementById("msg");
+    let i = 0;
+
+    function type() {
+      if (i <= text.length) {
+        const partial = text.slice(0, i);
+        el.textContent = partial;
+        i++;
+        setTimeout(type, 22); // velocidad
+      }
+    }
+    type();
+
+    // 3) Reveal
+    const btn = document.getElementById("revealBtn");
+    const reveal = document.getElementById("reveal");
+
+    btn.addEventListener("click", () => {
+      reveal.hidden = false;
+      reveal.classList.add("pop");
+      btn.disabled = true;
+      btn.textContent = "Listo 🌷";
+    });
+  </script>
+</body>
+</html>
