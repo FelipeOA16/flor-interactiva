@@ -10,21 +10,39 @@
 <body>
   <main class="wrap">
     <section class="card" aria-label="Tarjeta de flor">
-      <div class="flower" aria-hidden="true">
-        <div class="stem"></div>
-        <div class="leaf leaf-left"></div>
-        <div class="leaf leaf-right"></div>
+      <div class="bouquet" aria-hidden="true">
+        <div class="wrapPaper"></div>
 
-        <div class="bloom">
-          <span class="petal p1"></span>
-          <span class="petal p2"></span>
-          <span class="petal p3"></span>
-          <span class="petal p4"></span>
-          <span class="petal p5"></span>
-          <span class="petal p6"></span>
-          <span class="center"></span>
+        <div class="bloom b1">
+            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+            <span class="center"></span>
         </div>
-      </div>
+
+        <div class="bloom b2">
+            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+            <span class="center"></span>
+        </div>
+
+        <div class="bloom b3">
+            <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span>
+            <span class="petal p4"></span><span class="petal p5"></span><span class="petal p6"></span>
+            <span class="center"></span>
+        </div>
+
+        <div class="stem s1"></div>
+        <div class="stem s2"></div>
+        <div class="stem s3"></div>
+
+        <div class="leaf l1"></div>
+        <div class="leaf l2"></div>
+        <div class="leaf l3"></div>
+        </div>
+
+        <!-- Contenedor para la explosión -->
+        <div id="burst" class="burst" aria-hidden="true"></div>
+
 
       <h1 class="title">Para ti</h1>
 
@@ -64,16 +82,52 @@
     }
     type();
 
-    // 3) Reveal
+    // 3) Reveal y explosión de florecitas
     const btn = document.getElementById("revealBtn");
     const reveal = document.getElementById("reveal");
+    const burst = document.getElementById("burst");
+
+    function flowerBurst() {
+    const count = 32; // cantidad de florecitas
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement("span");
+        p.className = "flowerParticle";
+
+        // dispersión circular
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.25);
+        const radius = 120 + Math.random() * 90; // qué tan lejos vuelan
+        const dx = Math.cos(angle) * radius;
+        const dy = Math.sin(angle) * radius;
+
+        p.style.setProperty("--dx", `${dx}px`);
+        p.style.setProperty("--dy", `${dy}px`);
+        p.style.setProperty("--rot", `${(Math.random() * 720 - 360).toFixed(0)}deg`);
+
+        const duration = 700 + Math.random() * 500;
+        p.style.animation = `fly ${duration}ms ease-out forwards`;
+
+        // variación leve de color
+        const hueShift = Math.floor(Math.random() * 18) - 9;
+        p.style.filter = `hue-rotate(${hueShift}deg) drop-shadow(0 10px 10px rgba(255,127,176,.18))`;
+
+        burst.appendChild(p);
+
+        // limpiar
+        setTimeout(() => p.remove(), duration + 50);
+    }
+    }
 
     btn.addEventListener("click", () => {
-      reveal.hidden = false;
-      reveal.classList.add("pop");
-      btn.disabled = true;
-      btn.textContent = "Listo 🌷";
+    reveal.hidden = false;
+    reveal.classList.add("pop");
+
+    // explosión
+    flowerBurst();
+
+    btn.disabled = true;
+    btn.textContent = "Listo 🌷";
     });
+
   </script>
 </body>
 </html>
